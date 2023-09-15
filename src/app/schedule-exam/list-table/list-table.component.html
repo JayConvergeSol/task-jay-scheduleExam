@@ -1,0 +1,42 @@
+<div class="m-3">
+<p-card header="Examination Schedule" >
+    <p-table #myTab [value]="data"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [globalFilterFields]="['examDate', 'status']" [rows]="5" [paginator]="true"  [rowsPerPageOptions]="[5, 10, 25, 50]" >
+        <ng-template pTemplate="caption">
+            <div class="d-flex justify-content-between">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="myTab.clear()"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="myTab.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Exam Date</th>
+                <th>Present Candidates List</th>
+                <th>Absent Candidates List</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-exam>
+            <tr>
+                <td>{{ exam.examDate }}</td>
+                <td>
+                    <p-button (click)="show('Present',exam.examDate)" icon="pi pi-external-link" label="Present Candidates" styleClass="p-button-success"></p-button>
+                </td>
+                <td>
+                    <p-button (click)="show('Absent',exam.examDate)" icon="pi pi-external-link" label="Absent Candidates" styleClass="p-button-secondary"></p-button>
+                </td>
+                <td>
+                    <p-badge *ngIf="exam.status == 'Pending'" value={{exam.status}}  severity="warning"></p-badge>
+                    <p-badge *ngIf="exam.status == 'Incomplete'" value={{exam.status}}  severity="danger"></p-badge>
+                </td>
+                <td>
+                    <button pButton pRipple label="Reschedule" class="p-button-info"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+</div>
